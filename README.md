@@ -55,12 +55,16 @@ digunakan untuk mengaktifkan atau menonaktifkan fitur Material You di Flutter.
 # Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)
 
 1. Mengimport pada main.dart 
+```
 import 'package:flutter/material.dart';
 import 'package:pacil_cafe_mobile/menu.dart';
+```
 2. pada main.dart membuat kelas myApp yang mengextend StatelessWidget
 
+```
 import 'package:flutter/material.dart';
 import 'package:pacil_cafe_mobile/menu.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -98,11 +102,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
+```
+
 3. import pada menu.dart 
 import 'package:flutter/material.dart';
 
 
 4. Membuat class MyHomePage yang nantinya akan menampilkan widget-widget pada halaman utama
+
+```
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
 
@@ -170,10 +178,11 @@ class MyHomePage extends StatelessWidget {
       );
     }
 }
-
+```
 
 5. Membuat ShopItem yang berisi atribut 
 
+```
 class ShopItem {
   final String name;
   final IconData icon;
@@ -181,7 +190,11 @@ class ShopItem {
   ShopItem(this.name, this.icon);
 }
 
+```
+
 6. Membuat class ShopCard yang memakai data dari shopItem dan atributnya. 
+
+```
 class ShopCard extends StatelessWidget {
   final ShopItem item;
 
@@ -226,3 +239,4 @@ class ShopCard extends StatelessWidget {
     );
   }
 }
+```
