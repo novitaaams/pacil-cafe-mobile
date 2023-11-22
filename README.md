@@ -1,6 +1,5 @@
 # Tugas 9
 
-
 # Apakah bisa kita melakukan pengambilan data JSON tanpa membuat model terlebih dahulu? Jika iya, apakah hal tersebut lebih baik daripada membuat model sebelum melakukan pengambilan data JSON?
 
 Ya, memang mungkin untuk mengambil data JSON langsung di Flutter tanpa perlu membuat model terlebih dahulu. Data JSON dapat diolah dan disimpan sebagai Map<String, dynamic> atau List<Map<String, dynamic>>, tergantung pada struktur JSON yang diterima. Meski demikian, terdapat beberapa kekurangan dalam pendekatan ini:
@@ -24,7 +23,23 @@ Prosesnya melibatkan melakukan permintaan HTTP, umumnya menggunakan paket sepert
 
 # Jelaskan mekanisme autentikasi dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
 
-Secara umum, langkahnya mencakup formulir input pengguna di Flutter yang dikirimkan ke backend Django melalui permintaan HTTP. Django akan memproses dan mengautentikasi informasi yang diterima. Jika autentikasi berhasil, server akan menghasilkan token atau sesi, yang selanjutnya dapat disimpan di Flutter dan digunakan untuk permintaan berikutnya. Apabila token sudah tidak berlaku, proses autentikasi perlu dijalankan kembali.
+Proses autentikasi antara aplikasi Flutter dan backend Django melibatkan beberapa langkah kunci untuk memastikan keamanan dan kesinambungan data.
+
+Input Data:
+
+Pengguna memasukkan data akun (seperti username dan password) di aplikasi Flutter.
+Kirim ke Django:
+
+Flutter mengirimkan data akun tersebut ke backend Django menggunakan HTTP request (biasanya POST).
+Proses di Django:
+
+Backend Django menerima data tersebut dan melakukan proses autentikasi. Ini melibatkan pengecekan ke database untuk mencocokkan data pengguna.
+Respons ke Flutter:
+
+Setelah memproses data, Django mengirimkan respons ke aplikasi Flutter. Respons ini bisa berupa konfirmasi keberhasilan atau gagalnya proses autentikasi.
+Tampilan di Flutter:
+
+Berdasarkan respons dari Django, Flutter kemudian menampilkan hasil autentikasi. Jika berhasil, aplikasi mungkin akan membuka halaman menu utama atau dashboard. Jika gagal, aplikasi mungkin akan menampilkan pesan error atau meminta pengguna untuk mencoba lagi.
 
 # Sebutkan seluruh widget yang kamu pakai pada tugas ini dan jelaskan fungsinya masing-masing.
 
