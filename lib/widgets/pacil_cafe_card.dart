@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pacil_cafe_mobile/screens/pacil_cafe_form.dart';
-import 'package:pacil_cafe_mobile/screens/pacil_cafe_page.dart';
+import 'package:pacil_cafe_mobile/screens/list_item.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:pacil_cafe_mobile/screens/login.dart';
+import 'package:pacil_cafe_mobile/screens/list_item_form.dart';
 
 class ShopItem {
   final String name;
@@ -13,30 +16,50 @@ class ShopItem {
 class ShopCard extends StatelessWidget {
   final ShopItem item;
 
-  const ShopCard(this.item, {super.key}); // Constructor
+  final int id;
+
+  const ShopCard(this.item, this.id, {super.key});
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Material(
       color: item.color,
       child: InkWell(
         // Area responsive terhadap sentuhan
-        onTap: () {
+        onTap: () async {
           // Memunculkan SnackBar ketika diklik
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
-              content: Text("Kamu telah menekan tombol ${item.name}!")));
-            if (item.name == "Tambah Item") {
+                content: Text("Kamu telah menekan tombol ${item.name}!")));
+          if (item.name == "Tambah Item") {
             // TODO: Gunakan Navigator.push untuk melakukan navigasi ke MaterialPageRoute yang mencakup ShopFormPage.
-             Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ShopFormPage()));
-          }
-          if (item.name == "Lihat Item") {
             Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ItemListPage(itemList: itemList)));
+                MaterialPageRoute(builder: (context) =>  ShopFormPage(id: id)));
+          } else if (item.name == "Lihat Item") {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) =>  ItemPage(id: id)));
+          } else if (item.name == "Logout") {
+            final response = await request.logout(
+                // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+                "https://novita-mulia-tugas.pbp.cs.ui.ac.id/auth/logout/");
+            String message = response["message"];
+            if (response['status']) {
+              String uname = response["username"];
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("$message Sampai jumpa, $uname."),
+              ));
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("$message"),
+              ));
+            }
           }
-          
         },
         child: Container(
           // Container untuk menyimpan Icon dan Text

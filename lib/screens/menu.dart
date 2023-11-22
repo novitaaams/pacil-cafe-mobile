@@ -4,41 +4,28 @@ import 'package:pacil_cafe_mobile/widgets/pacil_cafe_card.dart';
 
 
 class MyHomePage extends StatelessWidget {
-    MyHomePage({Key? key}) : super(key: key);
+    final int id;
+    MyHomePage({Key? key, required this.id}) : super(key: key);
     final List<ShopItem> items = [
-    ShopItem("Lihat Item", Icons.checklist, Color.fromARGB(255, 199, 122, 143)),
-    ShopItem("Tambah Item", Icons.add_shopping_cart, Color.fromARGB(255, 208, 92, 136)),
-    ShopItem("Logout", Icons.logout,Color.fromARGB(255, 233, 135, 194)),
+    ShopItem("Lihat Item", Icons.checklist, const Color.fromARGB(255, 195, 146, 224)),
+    ShopItem("Tambah Item", Icons.add_shopping_cart, const Color.fromARGB(255, 135, 97, 157)),
+    ShopItem("Logout", Icons.logout,Color.fromARGB(255, 101, 70, 118)),
 ];
     
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
    @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Pacil Cafe',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor:  const Color.fromARGB(255, 207, 107, 129),
+        backgroundColor:  const Color.fromARGB(255, 175, 128, 196),
         foregroundColor: Colors.white,
       ),
       // Masukkan drawer sebagai parameter nilai drawer dari widget Scaffold
-      drawer: const LeftDrawer(),
+      drawer: LeftDrawer(id: id,),
       body: SingleChildScrollView(
         // Widget wrapper yang dapat discroll
         child: Padding(
@@ -50,7 +37,7 @@ class MyHomePage extends StatelessWidget {
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                 // Widget Text untuk menampilkan tulisan dengan alignment center dan style yang sesuai
                 child: Text(
-                  'Pacil Cafe', // Text yang menandakan toko
+                  'Pacil cafe', // Text yang menandakan toko
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
@@ -69,7 +56,7 @@ class MyHomePage extends StatelessWidget {
                 shrinkWrap: true,
                 children: items.map((ShopItem item) {
                   // Iterasi untuk setiap item
-                  return ShopCard(item);
+                  return ShopCard(item, id);
                 }).toList(),
               ),
             ],

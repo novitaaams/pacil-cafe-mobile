@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pacil_cafe_mobile/screens/list_item.dart';
 import 'package:pacil_cafe_mobile/screens/menu.dart';
-import 'package:pacil_cafe_mobile/screens/pacil_cafe_form.dart';
-import 'package:pacil_cafe_mobile/screens/pacil_cafe_page.dart';
+import 'package:pacil_cafe_mobile/screens/list_item_form.dart';
 
 
 class LeftDrawer extends StatelessWidget {
-  const LeftDrawer({super.key});
+  final int id;
+  const LeftDrawer({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +16,12 @@ class LeftDrawer extends StatelessWidget {
           const DrawerHeader(
             // TODO: Bagian drawer header
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 207, 107, 129),
+                  color: Color.fromARGB(255, 175, 128, 196),
                 ),
                 child: Column(
                   children: [
                     Text(
-                      'Pacil Cafe',
+                      'Pacil cafe',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 30,
@@ -51,7 +52,7 @@ class LeftDrawer extends StatelessWidget {
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MyHomePage(),
+                    builder: (context) => MyHomePage(id:id),
                   ));
             },
           ),
@@ -67,7 +68,7 @@ class LeftDrawer extends StatelessWidget {
                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ShopFormPage(),
+                    builder: (context) =>  ShopFormPage(id:id),
                   ));
             },
           ),
@@ -76,11 +77,10 @@ class LeftDrawer extends StatelessWidget {
             title: const Text('Lihat Item'),
             // Bagian redirection ke FragranceFormPage
             onTap: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ItemListPage(itemList: itemList),
-                  ));
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>  ItemPage(id: id)),
+              );
             },
           )
         ],

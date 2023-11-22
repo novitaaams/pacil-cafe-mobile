@@ -1,44 +1,47 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-// TODO: Impor drawer yang sudah dibuat sebelumnya
-import 'package:pacil_cafe_mobile/widgets/left_drawer.dart';
-import 'package:pacil_cafe_mobile/models/pacil_cafe_models.dart';
 
-List<Item> itemList = [];
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
+// TODO: Impor drawer yang sudah dibuat sebelumnya
+import 'package:pacil_cafe_mobile/screens/menu.dart';
+import 'package:pacil_cafe_mobile/widgets/left_drawer.dart';
 
 class ShopFormPage extends StatefulWidget {
-    const ShopFormPage({super.key});
+ final int id;
+  const ShopFormPage({super.key, required this.id});
 
-    @override
-    State<ShopFormPage> createState() => _ShopFormPageState();
+  @override
+  State<ShopFormPage> createState() => _ShopFormPageState();
 }
 
 class _ShopFormPageState extends State<ShopFormPage> {
-    final _formKey = GlobalKey<FormState>();
-    String _name = "";
-    int _amount = 0;
-    String _description = "";
-    @override
-    Widget build(BuildContext context) {
-        return Scaffold(
-        appBar: AppBar(
-          title: const Center(
-            child: Text(
-              'Form Tambah Item',
-            ),
+  final _formKey = GlobalKey<FormState>();
+  String _name = "";
+  int _amount = 0;
+  String _description = "";
+  @override
+  Widget build(BuildContext context) {
+    final int id = widget.id;
+    final request = context.watch<CookieRequest>();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Center(
+          child: Text(
+            'Form Tambah Item',
           ),
-          backgroundColor: Color.fromARGB(255, 207, 107, 129),
-          foregroundColor: Colors.white,
         ),
-        // TODO: Tambahkan drawer yang sudah dibuat di sini
-        drawer: const LeftDrawer(),
-        body: Form(
+        backgroundColor: const Color.fromARGB(255, 175, 128, 196),
+        foregroundColor: Colors.white,
+      ),
+      // TODO: Tambahkan drawer yang sudah dibuat di sini
+      drawer: LeftDrawer(id: id),
+      body: Form(
         key: _formKey,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
@@ -113,67 +116,53 @@ class _ShopFormPageState extends State<ShopFormPage> {
                   },
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Align(
+              Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Color.fromARGB(255, 207, 107, 129),),
+                      backgroundColor: MaterialStateProperty.all(
+                          const Color.fromARGB(255, 175, 128, 196)),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        Item newItem = Item(
-                          name: _name,
-                          amount: _amount,
-                          description: _description,
-                        );
-                        itemList.add(newItem);
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Item berhasil tersimpan'),
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: [
-                                  // TODO: Munculkan value-value lainnya
-                                    Text('Nama: $_name'),
-                                    Text('Jumlah: $_amount'),
-                                    Text('Deskripsi: $_description'),
-                                  ],
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: const Text('OK'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      _formKey.currentState!.reset();
-                      }
+                        final response = await request.postJson(
+                            "https://novita-mulia-tugas.pbp.cs.ui.ac.id/create-flutter/",
+                            jsonEncode(<String, String>{
+                              'name': _name,
+                              'amount': _amount.toString(),
+                              'description': _description,
+                              // TODO: Sesuaikan field data sesuai dengan aplikasimu
+                            }));
+                        if (response['status'] == 'success') {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text("Item baru berhasil disimpan!"),
+                          ));
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyHomePage(id: id)),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content:
+                                Text("Terdapat kesalahan, silakan coba lagi."),
+                          ));
+                        }
+                          }
                     },
-                    
+                        
                     child: const Text(
                       "Save",
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                ),
               ),
             ],
-          
           ),
         ),
       ),
