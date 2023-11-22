@@ -19,7 +19,24 @@ CookieRequest adalah suatu objek atau kelas yang digunakan untuk mengelola permi
 
 #  Jelaskan mekanisme pengambilan data dari JSON hingga dapat ditampilkan pada Flutter.
 
-Prosesnya melibatkan melakukan permintaan HTTP, umumnya menggunakan paket seperti http, untuk mengambil data JSON dari server. Setelah respons diterima, data JSON diurai dan diorganisir ke dalam objek yang sesuai. Widget Flutter kemudian menggunakan objek tersebut untuk membangun antarmuka pengguna.
+Proses pengambilan data dari JSON dan menampilkannya pada aplikasi Flutter melibatkan beberapa langkah kunci:
+
+1. Fetch Data:
+
+Menggunakan HTTP request (biasanya GET) untuk mengambil data JSON dari web service.
+
+2. Deserialisasi JSON:
+
+Mengubah data JSON yang diterima menjadi objek Dart. Ini bisa dilakukan dengan menggunakan model yang sudah dibuat atau secara langsung menjadi Map atau List, tergantung pada struktur JSON.
+
+3. Penggunaan Data:
+
+Menggunakan data yang telah dikonversi untuk mengisi state atau variabel di dalam aplikasi Flutter. Ini bisa berupa data yang ditampilkan langsung atau yang digunakan untuk logika lebih lanjut dalam aplikasi.
+
+4. Menampilkan Data:
+
+Menampilkan data yang telah dikonversi ke dalam aplikasi dengan menggunakan berbagai widget Flutter. Sebagai contoh, ListView.builder dapat digunakan untuk menampilkan daftar data, sementara Text atau Card widget dapat digunakan untuk menampilkan detail data.
+
 
 # Jelaskan mekanisme autentikasi dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
 
